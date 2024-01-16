@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/himanshusingh/Desktop/vishwa_workspace/devel -DCMAKE_INSTALL_PREFIX=/home/himanshusingh/Desktop/vishwa_workspace/install -G Unix Makefiles
