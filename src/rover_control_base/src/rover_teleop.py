@@ -6,7 +6,9 @@ from sensor_msgs.msg import Joy
 from math import floor
 
 class WheelState:
-    def __init__(self) -> None:
+    def __init__(self):
+        pub1=rospy.Publisher('wheel_vels',Int32MultiArray,queue_size = 10)
+        pub2=rospy.Publisher('wheel_angs',Int32MultiArray,queue_size = 10)
         self.wheel_1_r = 0
         self.wheel_2_l = 0
         self.wheel_3_l = 0
@@ -120,25 +122,25 @@ class WheelState:
                 self.wheel_3_l = floor(50*data.axes[1])
                 self.wheel_4_r = floor(50*data.axes[1])
 
+        # This should be a seperate publisher function.
         wheel_vels_arr = [self.wheel_1_r , self.wheel_2_l , self.wheel_3_l , self.wheel_4_r]
         ang_arr = [self.val]
         wheel_data_to_send = Int32MultiArray()
         ang_data_to_send = Int32MultiArray()
         wheel_data_to_send.data = wheel_vels_arr
         ang_data_to_send.data = ang_arr
-        pub1.publish(wheel_data_to_send)
-        pub2.publish(ang_data_to_send)
+        self.pub1.publish(wheel_data_to_send)
+        self.pub2.publish(ang_data_to_send)
         print(str(wheel_data_to_send.data) + "--- wheels speed")
         print(str(ang_data_to_send.data) + "--- wheel angles")
 
 def main():
     rospy.init_node('joy_to_p2')
     wheel_state = WheelState()
-    global pub1, pub2
-    pub1=rospy.Publisher('wheel_vels',Int32MultiArray,queue_size = 10)
-    pub2=rospy.Publisher('wheel_angs',Int32MultiArray,queue_size = 10)
     rospy.spin()
-    
+
+    # exception and node shutdown handling expected here
+    # rospy.shutdown()
 
 if __name__ == '__main__':
     main()
