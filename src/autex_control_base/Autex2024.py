@@ -121,8 +121,7 @@ class autonomous():
         # print((right_signs))
 
 
-        midpoint_left= sign_detector.show_box(self.edges, left_signs)
-        midpoint_right= sign_detector.show_box(self.edges, right_signs)
+        #midpoint shifted cause if right sign not detected then show box will throw error as uska len will be 0
 
         # print(type(a))
 
@@ -131,12 +130,14 @@ class autonomous():
 
         if len(left_signs):
             print("left arrow being detected ")
+            midpoint_left= sign_detector.show_box(self.edges, left_signs)
             distance_left_arrow = self.depth_image[midpoint_left[0], midpoint_left[1]]
             self.pubSpeed(1, distance_left_arrow)
             self.pubSpeed(2,distance_left_arrow)
         
         elif len(right_signs):
             print("right arrow being detected ")
+            midpoint_right= sign_detector.show_box(self.edges, right_signs)
             distance_right_arrow = self.depth_image[midpoint_right[0], midpoint_right[1]]
             self.pubSpeed(1, distance_right_arrow)
             self.pubSpeed(3, distance_right_arrow)
